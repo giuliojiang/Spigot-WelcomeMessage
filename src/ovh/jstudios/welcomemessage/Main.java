@@ -1,9 +1,11 @@
 package ovh.jstudios.welcomemessage;
 
 import org.bukkit.Server;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import ovh.jstudios.welcomemessage.commands.CommandManager;
 import ovh.jstudios.welcomemessage.listeners.PlayerJoinListener;
 
 import java.util.logging.Logger;
@@ -35,6 +37,8 @@ public class Main extends JavaPlugin {
 
         initListeners();
 
+        initCommands();
+
         logger.info("Loaded.");
 
     }
@@ -55,8 +59,15 @@ public class Main extends JavaPlugin {
 
     private void initListeners() {
 
-        String welcomeMessageTemplate = config.getString("message");
-        server.getPluginManager().registerEvents(new PlayerJoinListener(logger, welcomeMessageTemplate), this);
+        server.getPluginManager().registerEvents(new PlayerJoinListener(logger, config), this);
+
+    }
+
+    private void initCommands() {
+
+        PluginCommand welcomeMessageCommand = getCommand("welcomeMessage");
+        welcomeMessageCommand.setPermission("welcomeMessage");
+        welcomeMessageCommand.setExecutor(new CommandManager(config, this));
 
     }
 

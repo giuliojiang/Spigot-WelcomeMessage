@@ -3,3 +3,7 @@ version: 0.2
 author: giuliojiang
 main: ovh.jstudios.welcomemessage.Main
 api-version: 1.13
+commands:
+   welcomeMessage:
+      description: Change the server's player welcome message
+      usage: /welcomeMessage <new message>
